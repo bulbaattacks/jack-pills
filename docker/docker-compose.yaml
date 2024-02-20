@@ -1,0 +1,21 @@
+version: '3'
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:15.3-alpine
+    restart: always
+    ports:
+    - "5432:5432"
+    environment:
+    - POSTGRES_USER=postgres
+    - POSTGRES_PASSWORD=postgres
+    - POSTGRES_DB=pet
+  flyway:
+    container_name: flyway
+    image: flyway/flyway:9-alpine
+    command: -configFiles=/flyway/conf/flyway.config -locations=filesystem:/flyway/sql -connectRetries=60 migrate
+    volumes:
+      - ..:/flyway/sql
+      - ./docker-flyway.config:/flyway/conf/flyway.config
+    depends_on:
+      - postgres

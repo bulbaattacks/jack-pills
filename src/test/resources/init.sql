@@ -1,0 +1,1 @@
+CREATE SCHEMA IF NOT EXISTS jack_pills_service;
